@@ -34,34 +34,36 @@ max_count = 0
 max_prime = -1
 max_replacement = []
 
-for prime in prime_numbers:
-	string_prime = str(prime)
-	count = 0
-	replacement = []
-	for replace_indices in possible_replacement(string_prime):
-		c = 0
-		for i in range(10):
-			number = ''.join(i if not replaced else j for i, j, replaced in zip(string_prime, [str(i)] * len(string_prime), replace_indices))
-			
-			if number[0] == '0':
-				continue
-			number = int(number)
-			
-			if number in prime_set:
-				c += 1
+if __name__ == '__main__':
+	# gremo cez prastevila, za vsako prastevilo naredimo vse mozne zamenjave, in si zapomnimo, kje je najvec zamenjav se vedno prastevil
+	for prime in prime_numbers:
+		string_prime = str(prime)
+		count = 0
+		replacement = []
+		for replace_indices in possible_replacement(string_prime):
+			c = 0
+			for i in range(10):
+				number = ''.join(i if not replaced else j for i, j, replaced in zip(string_prime, [str(i)] * len(string_prime), replace_indices))
+				
+				if number[0] == '0':
+					continue
+				number = int(number)
+				
+				if number in prime_set:
+					c += 1
 
-		if c > count:
-			count = c
-			replacement = replace_indices
+			if c > count:
+				count = c
+				replacement = replace_indices
 
-	if count > max_count:
-		max_count = count
-		max_prime = prime
-		max_replacement = replacement
-		print(max_prime, max_count, max_replacement)
-		if count == 8:
-			print(''.join(i if not replaced else j for i, j, replaced in zip(str(max_prime), ['1'] * len(max_replacement), max_replacement)))
-			exit()
+		if count > max_count:
+			max_count = count
+			max_prime = prime
+			max_replacement = replacement
+			print(max_prime, max_count, max_replacement)
+			if count == 8:
+				print(''.join(i if not replaced else j for i, j, replaced in zip(str(max_prime), ['1'] * len(max_replacement), max_replacement)))
+				exit()
 
 '''komentar:
 Zelo slab pristop, lahko bi delovalo konkretno hitreje, ce bi bolj pozorno prebral navodila. Namesto vseh moznosti bi gledal samo enake stevke pri prastevilih.
